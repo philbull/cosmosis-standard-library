@@ -1,0 +1,60 @@
+name: class-cmb-ppnc
+version: 2.4.1
+purpose: "Boltzmann and background integrator, modified for PPN Cosmology"
+url: http://class-code.net
+interface: class_interface.py
+attribution: [Julien Lesgourgues, Thomas Tram, Benjamin Audren, Simon Prunet, Jesus Torrado, Miguel
+Zumalacarregui, etc]
+rules:
+    - "You can use CLASS freely, provided that in your publications, you cite at least the paper CLASS II: Approximation schemes. Feel free to cite more CLASS papers!"
+cite:
+    - "http://arxiv.org/abs/1104.2932"
+    - "JCAP 07 (2011) 034"
+    - "http://arxiv.org/abs/1104.2934"
+    - "JCAP 09 (2011) 032"
+
+assumptions:
+    - PPNC model with constant alpha, gamma functions at high redshift
+
+explanation: |
+    
+    CLASS, but with a wrapper that calculates CMB power spectrum for a PPN 
+    Cosmology.
+
+params:
+    lmax:  "Integer, max angular frequency ell to use for cmb calculation (default 2000)"
+
+inputs:
+    cosmological_parameters:
+        ombh2:  "real, physbaryon density fraction today, Omega_b * h**2"
+        omch2:  "real, physical cdm density fraction today, Omega_c * h**2"
+        h0:  "real, hubble parameter H0 / 100 km/s/Mpc"
+        tau:  "real, optical depth to last-scattering"
+        n_s:  "real, scalar spectral index"
+        A_s:  "real, scalar spectrum primordial amplitude"
+        massless_nu:  "real, effective number of massless neutrinos (default 3.046)"
+        t_cmb: "real, the CMB temperature today in Kelvin (default=2.726)"
+
+    ppn_parameters:
+        alphainf_pn:  "real, value of alpha(z) at high-z"
+        gammainf_pn:  "real, value of gamma(z) at high-z"
+        gamma_cminf_pn:  "real, value of gamma_c,M(z) at high-z"
+        gamma_cDEinf_pn:  "real, value of gamma_c,DE(z) at high-z"
+
+outputs:
+    distances:
+        rs_zdrag: "real, sound horizon size at zdrag. Only if mode!=background"
+    
+    ppn_flrw_eff:
+        h_eff:  "real, value of h = H0/(100 km/s/Mpc) in effective FLRW model"
+        omch2_eff:  "real, value of Omega_M h^2 in effective FLRW model"
+        ombh2_eff:  "real, value of Omega_b h^2 in effective FLRW model"
+        ra_rec_eff: "real, comoving dist. to recombination in eff. FLRW, in Mpc"
+        sigma8_eff: "real, sigma8 at z=0 in effective FLRW model"
+        
+    cmb_cl:
+        ell: "1D integer array, angular frequencies. Only if mode=cmb or all"
+        tt:  "1D real array, ell * (ell+1) C_ell^TT / 2 pi in mu K^2. Only if mode=cmb or all"
+        ee:  "1D real array, ell * (ell+1) C_ell^EE / 2 pi in mu K^2. Only if mode=cmb or all"
+        bb:  "1D real array, ell * (ell+1) C_ell^BB / 2 pi in mu K^2. Only if mode=cmb or all"
+        te:  "1D real array, ell * (ell+1) C_ell^TE / 2 pi in mu K^2. Only if mode=cmb or all"

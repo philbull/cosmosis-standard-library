@@ -1,0 +1,93 @@
+name: ppnc
+version: 0.1
+purpose: "Calculate cosmological, GW, Solar System, and binary pulsar observables in a consistent parametrised post-Newtonian framework."
+url: http://www.philbull.com/code.html
+interface: ppnc_interface.py
+attribution: [Philip Bull, Viraj Sanghai]
+rules:
+    - "Please cite the paper (TBA) if you make use of this module."
+cite:
+    - "http://arxiv.org/abs/xxxx.xxxxx"
+    - "TODO journal citation"
+
+assumptions:
+    - The quasi-static regime in cosmology
+    - Factorisable growth rate in the matter power spectrum
+    - 1PN order in PPN
+
+explanation: |
+    
+    This provides an interface to a parametrised post-Newtonian treatment that 
+    applies to cosmology and various small-scale scenarios.
+
+params:
+    zref:  "Reference redshift, at which effective FLRW approx. takes over"
+    kmax:  "Max value to save P(k,z) (default 0.1 Mpc^-1)"
+
+inputs:
+    cosmological_parameters:
+        ombh2:  "real, physbaryon density fraction today, Omega_b * h**2"
+        omch2:  "real, physical cdm density fraction today, Omega_c * h**2"
+        h0:  "real, hubble parameter H0 / 100 km/s/Mpc"
+        tau:  "real, optical depth to last-scattering"
+        n_s:  "real, scalar spectral index"
+        A_s:  "real, scalar spectrum primordial amplitude"
+        massless_nu:  "real, effective number of massless neutrinos (default 3.046)"
+        t_cmb: "real, the CMB temperature today in Kelvin (default=2.726)"
+
+    ppn_parameters:
+        alpha0_pn: "real, the alpha parameter (rescaling of G) for PPN"
+        p_pn: "real, the scaling of alpha"
+        gamma0_pn: "real, PPN"
+        gamma_cm0_pn: "real, PPN"
+        q_pn: "real, scaling of gamma and gamma_cm for PPN"
+        gamma_cDE0_pn: "real, PPN"
+        r_pn: "real, scaling of gamma_DE (PPN)"
+        alphainf_pn:  "real, value of alpha(z) at high-z"
+        gammainf_pn:  "real, value of gamma(z) at high-z"
+        gamma_cminf_pn:  "real, value of gamma_c,M(z) at high-z"
+        gamma_cDEinf_pn:  "real, value of gamma_c,DE(z) at high-z"
+    
+    ppn_flrw_eff:
+        h_eff:  "real, value of h = H0/(100 km/s/Mpc) in effective FLRW model"
+        omch2_eff:  "real, value of Omega_M h^2 in effective FLRW model"
+        ombh2_eff:  "real, value of Omega_b h^2 in effective FLRW model"
+        ra_rec_eff: "real, comoving dist. to recombination in eff. FLRW, in Mpc"
+        sigma8_eff: "real, sigma8 at z=0 in effective FLRW model"
+        
+    cmb_cl:
+        ell: "1D integer array, angular frequencies. Only if mode=cmb or all"
+        tt:  "1D real array, ell * (ell+1) C_ell^TT / 2 pi in mu K^2"
+        ee:  "1D real array, ell * (ell+1) C_ell^EE / 2 pi in mu K^2"
+        bb:  "1D real array, ell * (ell+1) C_ell^BB / 2 pi in mu K^2"
+        te:  "1D real array, ell * (ell+1) C_ell^TE / 2 pi in mu K^2"
+    
+outputs:
+    cosmological_parameters:
+        sigma_8: "real, amplitude of linear matter power at 8/h Mpc at z=0"
+
+    distances:
+        nz: "integer, number of z samples"
+        z: "1D real array, redshifts of samples"
+        d_a: "1D real array, angular diameter distance in Mpc"
+        d_m: "1D real array, co-moving distance in Mpc"
+        d_l: "1D real array, luminosity distance in Mpc"
+        h:   "1D real array, expansion rate in c/Mpc"
+    
+    growth_parameters:
+        d_z: "1D real array, linear growth factor D"
+        f_z: "1D real array, linear growth rate f"
+        z: "1D real array, redshift of samples"
+    
+    cmb_cl:
+        ell: "1D integer array, angular frequencies. Only if mode=cmb or all"
+        tt:  "1D real array, ell * (ell+1) C_ell^TT / 2 pi in mu K^2"
+        ee:  "1D real array, ell * (ell+1) C_ell^EE / 2 pi in mu K^2"
+        bb:  "1D real array, ell * (ell+1) C_ell^BB / 2 pi in mu K^2"
+        te:  "1D real array, ell * (ell+1) C_ell^TE / 2 pi in mu K^2"
+    
+#    matter_power_lin:
+#        z: "1D real array, redshifts of samples. Only if mode=all"
+#        k_h: "1D real array, k wavenumbers of samples in Mpc/h. Only if mode=all"
+#        p_k: "2D real array, matter power spectrum at samples in (Mpc/h)^-3. Only if mode=all"
+

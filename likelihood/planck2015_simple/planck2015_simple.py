@@ -8,7 +8,6 @@ dirname = os.path.split(__file__)[0]
 default_data_file = os.path.join(dirname, "data.txt")
 default_covmat_file = os.path.join(dirname, "covmat.npy")
 
-
 class PlanckSimpleLikelihood(GaussianLikelihood):
     like_name = "planck2015_simple"
     x_section = "cmb_cl"
@@ -39,9 +38,13 @@ class PlanckSimpleLikelihood(GaussianLikelihood):
         ee_theory = block[self.y_section, "ee"] / f
 
         # interpolate into the theory,
-        tt_predicted = interp1d(ell_theory, tt_theory)(self.data_x[0])
-        te_predicted = interp1d(ell_theory, te_theory)(self.data_x[1])
-        ee_predicted = interp1d(ell_theory, ee_theory)(self.data_x[2])
+        try:
+            tt_predicted = interp1d(ell_theory, tt_theory)(self.data_x[0])
+            te_predicted = interp1d(ell_theory, te_theory)(self.data_x[1])
+            ee_predicted = interp1d(ell_theory, ee_theory)(self.data_x[2])
+        except:
+            raise ValueError("Requested data_x[0] = %f while lmax_theory = %f" \
+                             % (np.max(self.data_x[0]), np.max(ell_theory)))
 
         cl_predicted = np.concatenate(
             [tt_predicted, te_predicted, ee_predicted])

@@ -31,7 +31,7 @@ inputs:
         z: "1D real array, redshifts of samples"
         d_a: "1D real array, angular diameter distance in Mpc"
         h:  "1D real array, hubble parameter with in units of Mpc"
-        rz_zdrag:  "real, sound horizon at last scattering in Mpc"
+        rs_zdrag:  "real, sound horizon at last scattering in Mpc"
 outputs:
     likelihoods:
         wigglez_bao_like: "real, likelihood of supplied expansion history"
